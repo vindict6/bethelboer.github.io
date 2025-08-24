@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portales Farmer's Market</title>
+  <meta name="description" content="30 Years of Portales Farmer's Market" />
+
+  <style>
+    /* =====================
+       Farmers' Market Theme
+       ===================== */
+    :root {
+      --leaf: #2f7a3e;        /* leafy greens */
+      --tomato: #d64545;      /* tomato red */
+      --squash: #f2c14e;      /* squash yellow */
+      --eggplant: #5b3d77;    /* eggplant purple */
+      --soil: #4a3b2f;        /* rich soil */
+      --cream: #fffaf3;       /* paper tint */
+      --ink: #2b2b2b;         /* body text */
+    }
+
+    /* Subtle, produce-inspired confetti using an SVG pattern */
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 800px at 90% -10%, rgba(47,122,62,0.08), transparent 60%), /* leafy glow */
+        radial-gradient(900px 600px at -10% 90%, rgba(214,69,69,0.08), transparent 60%),  /* tomato glow */
+        #fefcf7;
+      font: 400 1.05rem/1.75 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    /* Decorative top & bottom market stripe */
+    .market-stripe {
+      height: 14px;
+      background-image: repeating-linear-gradient(90deg,
+        var(--leaf) 0 44px,
+        var(--squash) 44px 88px,
+        var(--tomato) 88px 132px,
+        var(--eggplant) 132px 176px);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.05) inset, 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .wrapper {
+      max-width: 72ch;
+      margin: 6rem auto;
+      padding: 0 1.2rem 5rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.92));
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+      position: relative;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    /* A subtle produce wreath behind the title using a masked SVG */
+    .wrapper::before {
+      content: "";
+      position: absolute;
+      inset: -80px -40px auto -40px;
+      height: 180px;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='180' viewBox='0 0 1200 180'%3E%3Cg fill='none' stroke-width='8' stroke-linecap='round' opacity='0.09'%3E%3Cpath stroke='%232f7a3e' d='M60 120c50-80 110-80 160 0'/%3E%3Ccircle stroke='%23d64545' cx='330' cy='85' r='28'/%3E%3Cpath stroke='%23f2c14e' d='M430 110q28-38 56 0t56 0'/%3E%3Cpath stroke='%235b3d77' d='M650 120c20-40 40-40 60 0'/%3E%3Ccircle stroke='%232f7a3e' cx='780' cy='90' r='22'/%3E%3Cpath stroke='%23d64545' d='M860 120c40-70 100-70 140 0'/%3E%3C/g%3E%3C/svg%3E") center / cover no-repeat;
+      pointer-events: none;
+    }
+
+    header {
+      text-align: center;
+      padding-top: 3.2rem;
+      padding-bottom: 1rem;
+    }
+
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: clamp(2rem, 4vw + 0.5rem, 3rem);
+      line-height: 1.1;
+      color: var(--leaf);
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 0 #fff;
+    }
+
+    .subtitle {
+      font-size: 0.975rem;
+      color: #5a5a5a;
+    }
+
+    article {
+      margin-top: 1.75rem;
+    }
+
+    article p {
+      margin: 0 0 1.1rem;
+      text-wrap: pretty;
+    }
+
+    /* Pull-quote accent resembling a produce crate label */
+    blockquote {
+      margin: 2rem 0;
+      padding: 1rem 1.25rem;
+      border-left: 6px solid var(--tomato);
+      background: linear-gradient(0deg, rgba(242,193,78,0.08), rgba(47,122,62,0.05));
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    /* Drop cap for first paragraph */
+    .lead::first-letter {
+      float: left;
+      font-size: 3.2rem;
+      line-height: 0.9;
+      padding-right: 0.25rem;
+      color: var(--tomato);
+      font-weight: 700;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    /* Section divider styled like a twine with leaf tags */
+    .divider {
+      margin: 2.5rem 0 1.5rem;
+      height: 12px;
+      background: repeating-linear-gradient(90deg, rgba(74,59,47,0.35) 0 18px, transparent 18px 36px);
+      position: relative;
+      border-radius: 8px;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%) rotate(-8deg);
+      width: 18px; height: 10px;
+      background: var(--leaf);
+      border-radius: 2px 10px 10px 2px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+    }
+    .divider::after { right: 6%; background: var(--eggplant); transform: translateY(-50%) rotate(6deg); border-radius: 10px 2px 2px 10px; }
+    .divider::before { left: 6%; }
+
+    /* Figure with caption for optional produce photo or illustration */
+    figure {
+      margin: 2rem 0; padding: 0; text-align: center;
+    }
+    figure img {
+      max-width: 100%; border-radius: 14px; display: block; margin: 0 auto; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+    figcaption { color: #666; font-size: 0.9rem; margin-top: 0.4rem; }
+
+    footer {
+      margin-top: 2.5rem;
+      font-size: 0.9rem; color: #666; text-align: center;
+    }
+
+    /* Links styled like produce price tags */
+    a {
+      color: var(--leaf);
+      text-decoration: none;
+      box-shadow: 0 -2px 0 inset rgba(47,122,62,0.25);
+      transition: box-shadow .2s ease, color .2s ease;
+    }
+    a:hover { color: var(--soil); box-shadow: 0 -8px 0 inset rgba(242,193,78,0.3); }
+
+    /* Print-friendly adjustments */
+    @media print {
+      body { background: #fff; }
+      .market-stripe, .divider::before, .divider::after, .wrapper::before { display: none; }
+      .wrapper { box-shadow: none; border: none; margin: 0; }
+      a { color: black; box-shadow: none; text-decoration: underline; }
+    }
+  </style>
+</head>
+<body>
+  <div class="market-stripe" aria-hidden="true"></div>
+
+  <main class="wrapper">
+    <header>
+      <h1>Portales Farmer's Market</h1>
+      <p class="subtitle"><b>30 Years Strong in the Heart of Downtown Portales</b></p>
+    </header>
+
+    <article>
+      
+		<p class="lead">August is designated as a time to recognize and celebrate Farmers’ Markets on a national
+		level. The Portales Farmers Market, which commenced operations in 1995, continues to
+		thrive three decades later. As members of the Portales Farmers Market, we wish to
+		highlight aspects of the history and heritage associated with vegetable farming and
+		markets in Roosevelt County. Key individuals involved in establishing the market include
+		local growers C.M. Baker, Larry and Margie Plummer, and County Extension Agent Floyd
+		McAlister.</p>
+		<p>The City of Portales, led by Mayor Don Davis, designated the former fire station property at
+		First Street and Avenue B as the site for the Portales Farmer’s Market. With financial
+		support from grants and beautification programs, the city added brick planters, planted
+		trees, and installed signage to establish the area as the permanent market location. Local
+		growers and customers were welcomed to the downtown area twice weekly to sell produce
+		through the newly established market. Many residents attended every market, not only to
+		purchase delicious fresh produce, but to visit with old and new neighbors.</p>
+		
+		<p>The market has seen many changes in 30 years. Different vendors and tons of produce
+		have passed through the Portales Farmers Market. Programs to help feed children and
+		seniors have been added. Bakery items, eggs and unique veggies have found their way into
+		the market. One thing remains unchanged, these regular market gatherings continue to
+		foster a sense of fellowship and provide ongoing access to quality, locally sourced produce
+		in the heart of downtown Portales.</p>
+		
+		<p>The current vendors at the Portales Farmer’s Market uphold the longstanding tradition of
+		vegetable farming in this region. Many of our members represent multiple generations of
+		Roosevelt County farmers. We welcome the opportunity to introduce ourselves and share
+		aspects of our individual backgrounds.</p>
+		
+		<p><b><center>Bethel Boer Farm Stand - Chris & Suzi Visser</center></b></p>
+
+		<p>My name is Suzanne Visser. With our grandsons' births, our family now spans seven
+		generations in Roosevelt County. Hugh Jacob Mathis settled in Portales in the early 1900s.
+		His son, Brice Mathis – my great uncle- became well known in the Portales area for his
+		contributions to vegetable farming over several decades. He is frequently remembered for
+		his generosity, permitting widows and those experiencing hardship to glean from his fields,
+		thereby providing vital sustenance to those in need prior to the development of government
+		assistance programs.</p>
+		
+		<p>Growing up, my parents farmed vegetables and sold eggs locally, sparking my interest in
+		gardening. My first job as a teenager was planting sweet potatoes for Newberry Farms.
+		After years away from farming, I returned to agriculture in 2018 when I married a Dutch
+		dairyman.</p>
+		
+		<p>Chris relocated to Portales and established E&C Dairy (later known as Parkland Dairy) in
+		1989. With access to acreage, he quickly developed a love for growing and harvesting his
+		own forages. He retired from the dairy industry in 2021, and together we created Bethel
+		Boer Farm Stand. The name Bethel Boer derives from our location in what was once
+		Bethel, New Mexico, and the Dutch word “Boer,” meaning “farmer.” Thus, Chris is known
+		as “the Dutch farmer at Bethel.”</p>
+		
+		<p>Since 2024, we have actively participated in local Farmer’s Markets. Bethel Boer is
+		dedicated to promoting sustainable, community-oriented vegetable cultivation through the
+		implementation of controlled environment agriculture (CEA) and targeted drip irrigation
+		techniques, supporting regional water conservation initiatives.</p>
+
+		<p><b><center>Ledbetter Chili - Rick & Evelyn Ledbetter</center></b></p>
+		
+		<p>Rick Ledbetter has benefited from a rich farming heritage, having worked alongside both his
+		father and grandfather. The name Z-7 Farms originates from his grandfather’s cattle brand,
+		symbolizing the family’s commitment to agricultural excellence. With over five decades of
+		farming experience, Rick has cultivated a diverse range of crops including peanuts,
+		potatoes, green beans, peas, cotton, forages, and carrots for color extraction; however,
+		green chili remains his principal crop. His wife, Evelyn, has provided support throughout
+		their forty-one years together on the farm. Ledbetter’s green chili enjoys a strong reputation
+		in Eastern New Mexico and West Texas and is distributed across various states. His
+		distinctive “I Got Roasted by Ledbetter Chili” logo has been a prominent feature at Farmer’s
+		Markets in Clovis and Portales for two decades, attracting numerous customers seeking
+		freshly roasted chili.</p>
+
+		<p><b><center>Microgreens - Tim Lutz</center></b></p>
+		<p>Tim relocated from the Midwest to Portales four years ago, bringing with him a distinctive
+		skill set. He cultivates 12 varieties of microgreens indoors using non-GMO seeds,
+		harvesting them each week. These fresh greens are available at the Portales Thursday
+		Market and the Saturday Morning Clovis Farmer’s Market.</p>
+
+		<p>For those unfamiliar, “microgreens” are vegetables and herb plants grown for only 8-12
+		days; unlike sprouts, they are cut above the root, typically as their second set of leaves
+		emerges. Rich in vitamins, nutrients, and antioxidants—often in concentrations exceeding
+		those found in mature plants—microgreens can be used independently or as an addition to
+		salads, wraps, cold dishes, and stir fry recipes.
+		Microgreens by Tim are carefully packaged and ready for immediate consumption, making
+		it easy to incorporate beneficial nutrients into your diet.</p>
+		
+		<p><b><center>MTA Farm - Mark & Tomie Anthony</center></b></p>
+
+		<p>MTA is an acronym for Mark & Tomie Anthony. Mark wanted to garden all his life but growing
+		up in Elida the lack of water and topsoil prevented it. Mark’s great grandfather
+		homesteaded south of Elida in 1902; the property is still in the family.</p>
+
+		<p>In 1990, Mark's employment with the John Deere dealership prompted a move from Clovis
+		to Muleshoe, where he was permitted to cultivate a garden on the dealership property. The
+		harvest was generously shared among colleagues, family members, and several senior
+		residents of Muleshoe. In 2016, Tomie became involved and actively participated in
+		gardening activities. Following a change in ownership at the dealership in 2017, Mark
+		accepted an offer to return to Clovis.</p>
+		
+		<p>The Anthony’s purchased a ten-acre property in Clovis and started a garden in 2018
+		continuing their tradition of distributing produce as they had in Muleshoe. Subsequently,
+		the idea of selling at the local farmer’s market arose. During the pandemic-related closure
+		of Mother’s Day Out daycare in 2020, Tomie assumed responsibility for sales at the Clovis
+		Farmers Market. Mark remained employed with John Deere, meeting Tomie at the market
+		after work on Tuesdays and attending Saturday markets.</p>
+
+		<p>In April 2022, Mark opted for early retirement to dedicate himself fully to managing the
+		garden. His cousins, Dink and Susan Looney also began assisting with both gardening and
+		farmers’ market operations. Their collective efforts have been instrumental to the success
+		of these initiatives.</p>
+
+		<p>MTA Farms has approximately 1.25 acres of garden space and cultivates a wide variety of
+		plants. The farm includes a 30x96 hoop house and uses drip irrigation to efficiently
+		distribute water. A beehive was added last year with the aim of learning about beekeeping
+		and supporting pollination in the garden. If this initiative proves successful, additional
+		beehives may be introduced and honey harvesting considered.</p>
+
+		<p><b><center>Rustic Rooster - Alan & Natalie Michael</center></b></p>
+		<p>My name is Natalie Michael. I came to New Mexico for a vacation to visit my now husband
+		Alan in 2011 and never left! In 2013 Alan and I were introduced to foster care. We became
+		foster parents and quickly grew as a family. Eventually we ended up adopting seven
+		amazing children to complete our family. Having so many people to cook for was a big
+		reason for me to improve my skills in the kitchen. I found a real love for cooking and that I
+		was pretty good at baking. Over the years, I went from a CNA to a stay-at-home mom. I
+		really love the life we built, and Roosevelt County was a perfect place to raise all my
+		beautiful kids. I started my farmers market journey this year and really enjoy it! I love being
+		able to share my love for baking with the community. As with everything in my life it was all
+		God’s timing, and I look forward to seeing where this new journey takes me!</p>
+
+		<p><b><center>Veggie Shack - Margie Plummer & Mark Balko</center></b></p>
+
+		<p>Our family has a long-standing tradition of farming in Roosevelt County, with our
+		grandparents and parents having established deep agricultural roots in the region. Both we
+		and subsequent generations have grown up immersed in farm life. In the early 1990s, we
+		expanded our produce acreage significantly, initially lacking a defined marketing strategy.
+		This led us to begin selling at the Clovis Farmer’s Market. Following further research and
+		collaboration among interested participants, the Portales Farmer’s Market was established
+		in 1995. This development marked the start of operating four markets weekly from July
+		through October. Over the years, our cultivation efforts have ranged from two to thirty
+		acres.</p>
+		
+		<p>In the mid-2000s, we acquired the Melrose Fruit Market from Ruby Stephenson. By 2012, we
+		relocated our garden operations to “Turnbough’s Corner” at the intersection of Highway 70 and
+		Roosevelt Roads 3 & P. Revitalizing this location after several years of vacancy required
+		substantial effort to prepare both the land and store for business.</p>
+
+		<p>Initially, we intended to maintain both Melrose and Portales locations; however, the
+		logistics of transporting produce multiple times per week proved challenging. Thus, since
+		2016, we have operated exclusively at the Portales site. Our operations now include an onsite farm store, a greenhouse for spring bedding plants, thirty acres dedicated to
+		vegetables, and participation in four farmers’ markets each week. As owners of The Veggie
+		Shack, Margie Plummer and Mark Balko sincerely appreciate the support of our customers
+		and the friendships formed over the years. We look forward to continuing to serve the
+		community for many more years to come (but probably not 30 more).</p>
+
+		<p>Margie Plummer is the Market Manager for Roosevelt and Curry County Farmer’s Market.
+		The Portales Market board consists of Rick Ledbetter, Mark Balko, and Chris Visser. For
+		information about participating in the Farmer’s Market or for any inquiries, contact can be
+		made with any of these individuals.</p>
+		
+		<p>We are aware that some individuals may feel disappointed about not being able to sell
+		crafts and similar items at the Portales Farmer’s Market. We would like to take this
+		opportunity to clarify any potential misunderstandings regarding this matter. While the
+		region offers numerous valuable opportunities for local artisans to market their products,
+		the focus of the Portales Farmer’s Market is distinct. In accordance with recommendations
+		from the New Mexico Farmer’s Market Association and our own local bylaws, the Portales
+		Farmer’s Market is committed to prioritizing locally grown produce and baked goods.</p>
+
+		<p>To be eligible for sale at the Market, items other than baked goods, eggs, fruits & vegetables
+		must consist of at least 75% of locally sourced ingredients (for example - goat soap made
+		from milk produced by your own goats). This policy supports the Market’s mission to
+		provide a unique platform where local farmers can engage directly with the community and
+		offer access to fresh, local products. Furthermore, adherence to these guidelines enables
+		participation in programs such as the Senior Farmer’s Market, WIC, and SNAP/Double Up,
+		ensuring broader benefits for both vendors and customers.</p>
+		
+		<p>We cordially invite you to visit and support locally grown New Mexico produce at the
+		Farmer’s Market, held on Mondays and Thursdays starting at 5:00 pm. The market is
+		located at the corner of First Street and Avenue B in Portales.</p>
+    </article>
+
+    <footer>
+      <!-- Optional byline or source note -->
+      <span>©2025 Bethel Boer <br>Website Designed and Hosted by Clinton Turner</span>
+    </footer>
+  </main>
+
+  <div class="market-stripe" aria-hidden="true"></div>
+</body>
+</html>
